@@ -1,8 +1,4 @@
-export type Category = 'софт' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил'
-
-export type FormErrors = Partial<Record<keyof IOrder, string>>;
-
-export type IOrderCard = Pick<IProductItem, 'title'| 'price'>
+import { Product } from "../components/AppData";
 
 export interface IProductItem {
   id: string;
@@ -11,66 +7,50 @@ export interface IProductItem {
   title: string;
   category: string;
   price: number | null;
+  selected: boolean;
+}
+
+export interface ICard {
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
 }
 
 export interface IOrder {
-  item: string[];
+  items: string[]
+  total: number;
   payment: string;
   adress: string;
   email: string;
   phone: string;
-  total: number;
 }
 
-export interface ICard extends IProductItem {
-  selected: boolean;
-}
-
-export interface ICardData {
-  items: IProductItem[];
-  preview: string | null;
-}
-
-export interface IPage {
-  store: HTMLElement[];
-  counter: number;
-}
-
-export interface AppState {
-  basketList: IOrderCard[];
-  basketTotal: string;
+export interface IAppState {
+  basket: IProductItem[];
+  page: IProductItem[];
   order: IOrder;
-  total: string | number;
-  isOrderReady: boolean;
   formErrors: FormErrors;
-  contacts: Partial<IOrder>;
   
-  loadCards(): Promise<void>;
-  selectCard(id: string): void;
-  openModal(modal: IProductItem): void;
-  addToBasket(value: IOrderCard): void;
-  deleteFromBasket(id: string): void;
+  addToBasket(value:Product): void;
+  deleteFromBasket(id:string): void;
   clearBasket(): void;
   getBasketCount(): number;
-  getBasketPrice(): number;
+  getTotalBasket(): number;
+  clearOrder(): boolean;
+  setItems(): void;
+  setStore(items: IProductItem[]): void;
+  resetSelected(): void;
   validationContacts(): boolean;
   validationOrder(): boolean;
-  fillContacts(contacts: Partial<IOrder>): void;
-  orderItems(): Promise<IOrder[]>;
+  setOrderField(field: keyof IOrderForm, value: string): void;
 }
 
-export interface IOrderItems{
-  id: string;
-  total: number;
-}
+export type IOrderForm = Pick<IOrder, 'payment'|'adress'|'email'|'phone'>
 
-export interface ICardList {
-  list: IOrderCard[];
-}
+export type Category = 'софт-скил'|'другое'|'доролнительное'|'кнопка'|'хард-скил' 
 
-export interface ICardAPI {
-  getCards: () =>Promise<IProductItem[]>
-  orderItems: () =>Promise<IOrderItems[]>
-}
+export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
 
