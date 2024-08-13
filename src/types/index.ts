@@ -11,20 +11,26 @@ export interface IProductItem {
 }
 
 export interface ICard {
-  description: string;
-  image: string;
+  id: string;
   title: string;
   category: string;
+  description: string;
+  image: string;
   price: number | null;
+  selected: boolean;
 }
 
 export interface IOrder {
   items: string[]
-  total: number;
+  total: number|string;
   payment: string;
-  adress: string;
+  address: string;
   email: string;
   phone: string;
+}
+
+export interface ApiResponse {
+  items: IProductItem[];
 }
 
 export interface IAppState {
@@ -47,9 +53,13 @@ export interface IAppState {
   setOrderField(field: keyof IOrderForm, value: string): void;
 }
 
-export type IOrderForm = Pick<IOrder, 'payment'|'adress'|'email'|'phone'>
+export type IOrderForm = Pick<IOrder, 'payment'|'address'|'email'|'phone'>;
 
-export type Category = 'софт-скил'|'другое'|'доролнительное'|'кнопка'|'хард-скил' 
+export type Category = 'другое'|'софт-скил'|'дополнительное'|'кнопка'|'хард-скил' ;
+
+export type CategoryMapping = {
+  [Key in Category]: string;
+};
 
 export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
